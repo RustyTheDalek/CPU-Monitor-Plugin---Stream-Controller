@@ -47,8 +47,8 @@ class NvtopAction(ActionCore):
                     cls._nvtop_cmd = ["nvtop", "-s"]
                     log.info("NvtopAction: Found native 'nvtop'")
                 elif shutil.which("flatpak-spawn"):
-                    cls._nvtop_cmd = ["flatpak-spawn", "--host", "nvtop", "-s"]
-                    log.info("NvtopAction: 'nvtop' not found, falling back to 'flatpak-spawn --host nvtop -s'")
+                    cls._nvtop_cmd = ["flatpak-spawn", "--host", "--directory=/", "nvtop", "-s"]
+                    log.info("NvtopAction: 'nvtop' not found, falling back to 'flatpak-spawn --host --directory=/ nvtop -s'")
                 else:
                     cls._nvtop_cmd = ["nvtop", "-s"]
                     log.warning("NvtopAction: Neither 'nvtop' nor 'flatpak-spawn' found in PATH. Using default fallback.")
@@ -61,6 +61,8 @@ class NvtopAction(ActionCore):
                     cls._cached_data = data
                     cls._cached_time = now
                     return data
+                else:
+                    log.error(f"NvtopAction: Command {cls._nvtop_cmd} failed with exit code {result.returncode}. Stderr: {result.stderr.strip()}")
             except Exception as e:
                 log.error(f"NvtopAction: Failed to run {cls._nvtop_cmd}: {e}")
         return cls._cached_data
@@ -127,7 +129,38 @@ class NvtopAction(ActionCore):
         try:
             return float(val_str)
         except ValueError:
+            import re
+            match = re.match(r"^([0-9.]+)", val_str)
+            if match:
+                try:
+                    return float(match.group(1))
+                except ValueError:
+                    pass
             return None
+
+    def parse_mem_to_bytes(self, val_str):
+        if val_str is None:
+            return None
+        val_str = str(val_str).strip()
+        if val_str.lower() in ("null", "none", ""):
+            return None
+        import re
+        match = re.match(r"^([0-9.]+)\s*([a-zA-Z]*)$", val_str)
+        if not match:
+            return None
+        num_str, unit = match.groups()
+        try:
+            val = float(num_str)
+        except ValueError:
+            return None
+        unit = unit.upper()
+        if unit == "GB":
+            return val * (1024 ** 3)
+        elif unit == "MB":
+            return val * (1024 ** 2)
+        elif unit == "KB":
+            return val * 1024
+        return val
 
     def update_display(self, force=False) -> None:
         if self._updating:
@@ -152,8 +185,8 @@ class NvtopAction(ActionCore):
             if gpu_util is None:
                 gpu_util = 0.0
 
-            used_bytes = self.parse_nvtop_val(gpu.get("mem_used"), "")
-            total_bytes = self.parse_nvtop_val(gpu.get("mem_total"), "")
+            used_bytes = self.parse_mem_to_bytes(gpu.get("mem_used"))
+            total_bytes = self.parse_mem_to_bytes(gpu.get("mem_total"))
             if used_bytes is not None and total_bytes is not None and total_bytes > 0:
                 mem_util = (used_bytes / total_bytes) * 100
             else:
