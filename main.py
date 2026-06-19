@@ -3,24 +3,24 @@ from src.backend.PluginManager.PluginBase import PluginBase
 from src.backend.PluginManager.ActionHolder import ActionHolder
 
 # Import actions
-from .actions.SimpleAction.SimpleAction import SimpleAction
+from .actions.NvtopAction.NvtopAction import NvtopAction
 
-class PluginTemplate(PluginBase):
+class NvtopPlugin(PluginBase):
     def __init__(self):
         super().__init__()
 
         ## Register actions
-        self.simple_action_holder = ActionHolder(
+        self.nvtop_action_holder = ActionHolder(
             plugin_base = self,
-            action_base = SimpleAction,
-            action_id = "dev_core447_Template::SimpleAction", # Change this to your own plugin id
-            action_name = "Simple Action",
+            action_base = NvtopAction,
+            action_id = "com_jay_NvtopPlugin::NvtopAction",
+            action_name = "GPU Monitor",
         )
-        self.add_action_holder(self.simple_action_holder)
+        self.add_action_holder(self.nvtop_action_holder)
 
         # Register plugin
         self.register(
-            plugin_name = "Template",
+            plugin_name = "GPU Monitor (nvtop)",
             github_repo = "https://github.com/StreamController/PluginTemplate",
             plugin_version = "1.0.0",
             app_version = "1.1.1-alpha"
