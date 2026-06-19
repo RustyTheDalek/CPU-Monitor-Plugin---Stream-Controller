@@ -22,6 +22,6 @@ class NvtopPlugin(PluginBase):
         self.register(
             plugin_name = "GPU Monitor (nvtop)",
             github_repo = "https://github.com/StreamController/PluginTemplate",
-            plugin_version = "1.0.5",
+            plugin_version = "1.0.6",
             app_version = "1.1.1-alpha"
         )

@@ -1,5 +1,5 @@
 {
-    "version": "1.0.5",
+    "version": "1.0.6",
     "thumbnail": "assets/gpu_icon.png",
     "id": "com_jay_NvtopPlugin",
     "name": "GPU Monitor (nvtop)"
