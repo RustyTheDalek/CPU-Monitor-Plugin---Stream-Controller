@@ -369,7 +369,7 @@ class NvtopAction(ActionCore):
                 bbox_unit = draw.textbbox((0, 0), val_unit, font=font_unit)
                 w_unit = bbox_unit[2] - bbox_unit[0]
                 h_unit = bbox_unit[3] - bbox_unit[1]
-                unit_y = val_y + h_val + 2
+                unit_y = val_y + h_val + 5
                 draw.text(((W - w_unit) / 2, unit_y), val_unit, fill=theme["dim"], font=font_unit)
             else:
                 font_val = self.get_font(int(H * 0.24), bold=True)
