@@ -240,10 +240,10 @@ class NvtopAction(ActionCore):
             if view_mode == "Cycle on Press":
                 active_view = self.current_view_idx
             else:
-                view_modes = ["GPU Util %", "Memory GB", "Temp °C", "Wattage W", "Clock Speed", "Summary"]
+                view_modes = ["GPU Util %", "Mem GB", "Temp °C", "Wattage W", "Clock Speed", "Summary"]
                 if view_mode in view_modes:
                     active_view = view_modes.index(view_mode)
-                elif view_mode == "Memory %":
+                elif view_mode in ("Memory %", "Memory GB"):
                     active_view = 1
                 else:
                     active_view = 0
@@ -320,7 +320,7 @@ class NvtopAction(ActionCore):
             hist_key = hist_keys[view_idx]
             history_data = self.history[hist_key]
 
-            labels = ["GPU UTIL", "MEMORY GB", "GPU TEMP", "GPU PWR", "GPU CLK"]
+            labels = ["GPU UTIL", "MEM GB", "GPU TEMP", "GPU PWR", "GPU CLK"]
             
             # Dynamic / static graph scaling limits
             if view_idx in (0, 1):
@@ -506,13 +506,15 @@ class NvtopAction(ActionCore):
             title="View Mode",
             subtitle="Select which statistics to display"
         )
-        view_modes = ["Cycle on Press", "GPU Util %", "Memory GB", "Temp °C", "Wattage W", "Clock Speed", "Summary"]
+        view_modes = ["Cycle on Press", "GPU Util %", "Mem GB", "Temp °C", "Wattage W", "Clock Speed", "Summary"]
         for v in view_modes:
             self.view_model_list.append(v)
             
         current_view = settings.get("view_mode", "Cycle on Press")
         if current_view in view_modes:
             self.view_selector.set_selected(view_modes.index(current_view))
+        elif current_view in ("Memory %", "Memory GB"):
+            self.view_selector.set_selected(view_modes.index("Mem GB"))
         self.view_selector.connect("notify::selected", self.on_change_view_mode)
 
         # 4. Update Interval selector
@@ -551,7 +553,7 @@ class NvtopAction(ActionCore):
         selected_str = combo.get_selected_item().get_string()
         settings["view_mode"] = selected_str
         
-        view_modes = ["GPU Util %", "Memory GB", "Temp °C", "Wattage W", "Clock Speed", "Summary"]
+        view_modes = ["GPU Util %", "Mem GB", "Temp °C", "Wattage W", "Clock Speed", "Summary"]
         if selected_str in view_modes:
             self.current_view_idx = view_modes.index(selected_str)
             settings["current_view_idx"] = self.current_view_idx
