@@ -1,9 +1,9 @@
 {
     "generic": {
-        "copyright": "Copyright (c) 2026 jaygz316",
-        "original-url": "https://github.com/jaygz316/stream-controller-nvtop",
+        "copyright": "Copyright (c) 2026 RustyTheDalek",
+        "original-url": "https://github.com/RustyTheDalek/CPU-Monitor-Plugin---Stream-Controller",
         "license": "MIT",
-        "license-url": "https://github.com/jaygz316/stream-controller-nvtop/blob/main/LICENSE",
-        "description": "GPU monitoring plugin using nvtop for StreamController on Linux"
+        "license-url": "https://github.com/RustyTheDalek/CPU-Monitor-Plugin---Stream-Controller/blob/main/LICENSE",
+        "description": "CPU monitoring plugin for StreamController on Linux. Forked from the GPU Monitor (nvtop) plugin by jaygz316."
     }
 }

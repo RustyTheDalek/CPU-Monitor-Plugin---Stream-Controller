@@ -1,16 +1,16 @@
 {
-    "version": "1.0.7",
-    "thumbnail": "assets/gpu_icon.png",
-    "id": "com_jay_NvtopPlugin",
-    "name": "GPU Monitor (nvtop)",
-    "description": "GPU monitoring plugin using nvtop for StreamController on Linux.",
+    "version": "1.0.0",
+    "thumbnail": "assets/cpu_icon.png",
+    "id": "com_rusty_CpuMonitorPlugin",
+    "name": "CPU Monitor",
+    "description": "CPU monitoring plugin for StreamController on Linux, reading utilisation, memory, temperature, power and clock speed straight from /proc and /sys. Works on any CPU (AMD and Intel).",
     "descriptions": {
-        "en_US": "GPU monitoring plugin using nvtop for StreamController on Linux."
+        "en_US": "CPU monitoring plugin for StreamController on Linux, reading utilisation, memory, temperature, power and clock speed straight from /proc and /sys. Works on any CPU (AMD and Intel)."
     },
-    "short-description": "GPU Monitor using nvtop",
+    "short-description": "CPU Monitor for Linux (AMD/Intel)",
     "short-descriptions": {
-        "en_US": "GPU Monitor using nvtop"
+        "en_US": "CPU Monitor for Linux (AMD/Intel)"
     },
-    "author": "jaygz316",
-    "repository": "https://github.com/jaygz316/stream-controller-nvtop"
+    "author": "RustyTheDalek",
+    "repository": "https://github.com/RustyTheDalek/CPU-Monitor-Plugin---Stream-Controller"
 }
